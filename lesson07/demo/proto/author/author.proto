@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package author;
+
+option go_package = "demo/proto/author";
+
+message Info {
+    string name = 1;
+}

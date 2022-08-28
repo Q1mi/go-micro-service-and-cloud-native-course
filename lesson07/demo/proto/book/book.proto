@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package book;
+
+option go_package = "demo/proto/book";
+
+import "book/price.proto";  // 从--proto_path=xx中xx那个路径开始往下写
+import "author/author.proto";
+import "google/protobuf/timestamp.proto";
+
+message Book {
+    string title = 1;
+    // 引用price.proto
+    Price price = 2;
+    // 导入其他目录下的message
+    author.Info author = 3;
+    // 时间戳？
+    google.protobuf.Timestamp date = 4;
+}
+
+service BookService{
+    rpc CreateBook(Book)returns(Book);
+}

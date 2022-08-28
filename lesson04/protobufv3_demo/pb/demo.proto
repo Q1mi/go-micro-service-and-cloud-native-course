@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package pb;  // 定义了一个proto的命名空间
+
+
+message SearchRequest {
+    string query = 1;  // singular 可以设置值也可以不设置值
+    int32 page_number = 2;
+    reserved 3;
+    int32 num = 4;
+    double score = 5; // float64
+
+    enum Corpus {
+        UNIVERSAL = 0;
+        WEB = 1;
+        IMAGES = 2;
+        LOCAL = 3;
+        NEWS = 4;
+        PRODUCTS = 5;
+        VIDEO = 6;  // 枚举值
+      }
+    Corpus corpus = 6;   // 字段编号
+  }
+
+enum Week {
+    UNKNOWN = 0;
+    MONDAY = 1;
+    // ...
+}
+
+message SearchResponse {
+    repeated string ret = 1;  // ret = ["a", "b", "c"]
+    SearchRequest.Corpus corpus = 2;
+    Result result = 3;
+    map<string, int> map_field = 4;  // map
+}
+
+message Result {
+    string url = 1;
+    string title = 2;
+    repeated string snippets = 3;
+  }
+
+
+service SearchService {
+    rpc Search(SearchRequest) returns (SearchResponse);
+}
