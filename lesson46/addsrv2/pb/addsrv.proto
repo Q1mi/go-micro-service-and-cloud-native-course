@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package="addsrv/pb";
+
+
+service Add {
+  // Sum 对两个数字求和
+  rpc Sum (SumRequest) returns (SumResponse) {}
+
+  // Concat 方法拼接两个字符串
+  rpc Concat (ConcatRequest) returns (ConcatResponse) {}
+}
+
+
+// Sum方法的请求参数
+message SumRequest {
+  int64 a = 1;
+  int64 b = 2;
+}
+
+// Sum方法的响应
+message SumResponse {
+  int64 v = 1;
+  string err = 2;
+}
+
+// Concat方法的请求参数
+message ConcatRequest {
+  string a = 1;
+  string b = 2;
+}
+
+// Concat方法的响应
+message ConcatResponse {
+  string v = 1;
+  string err = 2;
+}
