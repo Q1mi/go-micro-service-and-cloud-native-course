@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package="trim_service/pb";
+
+service Trim {
+  rpc TrimSpace (TrimRequest) returns (TrimResponse) {}
+}
+
+
+// Trim方法的请求参数
+message TrimRequest {
+  string s = 1;
+}
+
+// Trim方法的响应
+message TrimResponse {
+  string s = 1;
+}
