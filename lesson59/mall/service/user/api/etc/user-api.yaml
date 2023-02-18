@@ -1,0 +1,20 @@
+Name: user-api
+Host: 0.0.0.0
+Port: 8888
+
+
+Log:
+  ServiceName: "user-srv"
+  Mode: file
+  Encoding: json
+  Path: logs
+  Level: debug
+  Stat: true
+
+
+
+Mysql:
+  DataSource: root:root1234@tcp(127.0.0.1:3306)/db3?parseTime=true
+
+CacheRedis:
+  - Host: 127.0.0.1:6379
