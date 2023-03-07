@@ -1,0 +1,22 @@
+Name: user-api
+Host: 0.0.0.0
+Port: 8888
+
+
+Log:
+  ServiceName: "user-srv"
+  Mode: file
+  Encoding: json
+  Path: logs
+  Level: debug
+  Stat: true
+
+Auth:
+  AccessSecret: 夏天夏天悄悄过去
+  AccessExpire: 60
+
+Mysql:
+  DataSource: root:root1234@tcp(127.0.0.1:3306)/db3?parseTime=true
+
+CacheRedis:
+  - Host: 127.0.0.1:6379

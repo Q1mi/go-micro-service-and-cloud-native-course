@@ -1,0 +1,27 @@
+syntax = "v1"
+
+info(
+	title: "mall-order"
+	desc: "go-zero学习项目"
+	author: "qimi"
+	email: "@liwenzhou.com"
+	version: 1.0
+)
+
+type searchRequest {
+	OrderID string `form:"orderID"`
+}
+
+type searchResponse {
+	OrderID  string `json:"orderID"`
+	Status   int    `json:"status"`
+	Username string `json:"username"`
+}
+
+@server(
+	prefix: api
+)
+service order-api {
+	@handler SearchHandler
+	get /order/search(searchRequest) returns (searchResponse)
+}
