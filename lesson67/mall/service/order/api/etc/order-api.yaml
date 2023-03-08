@@ -1,0 +1,11 @@
+Name: order-api
+Host: 0.0.0.0
+Port: 8889
+
+UserRPC:
+  # Etcd: 
+  #   Hosts:
+  #     - 127.0.0.1:2379
+  #   Key: user.rpc 
+  Target: consul://127.0.0.1:8500/consul-user.rpc?wait=14s
+  
