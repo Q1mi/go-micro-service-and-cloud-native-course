@@ -1,0 +1,9 @@
+Name: shortener-api
+Host: 0.0.0.0
+Port: 8888
+
+ShortUrlDB:
+  DSN: root:root1234@tcp(127.0.0.1:3306)/db3?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+
+Sequence:
+  DSN: root:root1234@tcp(127.0.0.1:3306)/db3?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
