@@ -1,0 +1,30 @@
+/* 短链接项目
+* author: q1mi
+*/
+
+type ConvertRequest {
+	LongUrl string `json:"longUrl" validate:"required"`
+}
+
+type ConvertResponse {
+	ShortUrl string `json:"shortUrl"`
+}
+
+type ShowRequest {
+	ShortUrl string `path:"shortUrl" validate:"required"`
+}
+
+type ShowResponse {
+	LongUrl string `json:"longUrl"`
+}
+
+service shortener-api {
+	
+	@handler ConvertHandler
+	post /convert(ConvertRequest) returns(ConvertResponse)
+	
+	// q1mi.cn/lycsa1
+	@handler ShowHandler
+	get /:shortUrl(ShowRequest) returns(ShowResponse)
+	
+}
