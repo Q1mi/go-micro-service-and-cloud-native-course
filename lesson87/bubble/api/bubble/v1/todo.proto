@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package api.bubble.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "bubble/api/bubble/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.bubble.v1";
+
+service Todo {
+	rpc CreateTodo (CreateTodoRequest) returns (CreateTodoReply){
+		option (google.api.http) = {
+			post: "/v1/todo",
+			body: "*"
+		};
+	};
+	rpc UpdateTodo (UpdateTodoRequest) returns (UpdateTodoReply){
+		option (google.api.http) = {
+			put: "/v1/todo/{id}",
+			body: "*"
+		};
+	};
+	rpc DeleteTodo (DeleteTodoRequest) returns (DeleteTodoReply){
+		option (google.api.http) = {
+			delete: "/v1/todo/{id}",
+		};
+	};
+	rpc GetTodo (GetTodoRequest) returns (GetTodoReply){
+		option (google.api.http) = {
+			get: "/v1/todo/{id}",
+		};
+	};
+	rpc ListTodo (ListTodoRequest) returns (ListTodoReply){
+		option (google.api.http) = {
+			get: "/v1/todos",
+		};
+	};
+}
+
+message todo {
+	int64 id = 1;
+	string title = 2;
+	bool status = 3;
+}
+
+message CreateTodoRequest {
+	string title = 1;
+}
+message CreateTodoReply {
+	int64 id = 1;
+	string title = 2;
+	bool status = 3;
+}
+
+message UpdateTodoRequest {
+	int64 id = 1;
+	string title = 2;
+	bool status = 3;
+}
+message UpdateTodoReply {}
+
+message DeleteTodoRequest {
+	int64 id = 1;
+}
+message DeleteTodoReply {}
+
+message GetTodoRequest {
+	int64 id = 1;
+}
+message GetTodoReply {
+	todo todo = 1;
+}
+
+message ListTodoRequest {
+}
+message ListTodoReply {
+	repeated todo data = 1;
+}
