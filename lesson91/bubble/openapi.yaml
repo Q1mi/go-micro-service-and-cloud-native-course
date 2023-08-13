@@ -1,0 +1,183 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: ""
+    version: 0.0.1
+paths:
+    /helloworld/{name}:
+        get:
+            tags:
+                - Greeter
+            description: Sends a greeting
+            operationId: Greeter_SayHello
+            parameters:
+                - name: name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/helloworld.v1.HelloReply'
+    /v1/todo:
+        post:
+            tags:
+                - Todo
+            operationId: Todo_CreateTodo
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.bubble.v1.CreateTodoRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.bubble.v1.CreateTodoReply'
+    /v1/todo/{id}:
+        get:
+            tags:
+                - Todo
+            operationId: Todo_GetTodo
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.bubble.v1.GetTodoReply'
+        put:
+            tags:
+                - Todo
+            operationId: Todo_UpdateTodo
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.bubble.v1.UpdateTodoRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.bubble.v1.UpdateTodoReply'
+        delete:
+            tags:
+                - Todo
+            operationId: Todo_DeleteTodo
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.bubble.v1.DeleteTodoReply'
+    /v1/todos:
+        get:
+            tags:
+                - Todo
+            operationId: Todo_ListTodo
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.bubble.v1.ListTodoReply'
+components:
+    schemas:
+        api.bubble.v1.CreateTodoReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                title:
+                    type: string
+                status:
+                    type: boolean
+        api.bubble.v1.CreateTodoRequest:
+            type: object
+            properties:
+                title:
+                    type: string
+        api.bubble.v1.DeleteTodoReply:
+            type: object
+            properties: {}
+        api.bubble.v1.GetTodoReply:
+            type: object
+            properties:
+                todo:
+                    $ref: '#/components/schemas/api.bubble.v1.Todo'
+        api.bubble.v1.ListTodoReply:
+            type: object
+            properties:
+                data:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.bubble.v1.Todo'
+        api.bubble.v1.Todo:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                title:
+                    type: string
+                status:
+                    type: boolean
+        api.bubble.v1.UpdateTodoReply:
+            type: object
+            properties: {}
+        api.bubble.v1.UpdateTodoRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                title:
+                    type: string
+                status:
+                    type: boolean
+        helloworld.v1.HelloReply:
+            type: object
+            properties:
+                message:
+                    type: string
+            description: The response message containing the greetings
+tags:
+    - name: Greeter
+      description: The greeting service definition.
+    - name: Todo
