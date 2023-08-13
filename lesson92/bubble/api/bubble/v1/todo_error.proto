@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package api.bubble.v1;
+
+import "errors/errors.proto";
+
+option go_package = "bubble/api/bubble/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.bubble.v1";
+
+
+enum ErrorReason {
+    // 设置缺省错误码
+    option (errors.default_code) = 500;
+  
+    // 为某个枚举单独设置错误码
+    TODO_NOT_FOUND = 0 [(errors.code) = 404];
+  
+    INVALID_PARAM = 1 [(errors.code) = 400];
+  }
