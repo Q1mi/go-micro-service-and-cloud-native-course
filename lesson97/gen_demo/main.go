@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"gen-demo/dal/model"
 	"gen-demo/dal/query"
+	"time"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -92,4 +93,43 @@ func main() {
 		return
 	}
 	fmt.Println(ret.RowsAffected)
+
+	// query.Q 的应用场景
+	// r := repo{
+	// 	db: *query.Q,
+	// }
+
+	// 新增
+	query.Book.
+		WithContext(context.Background()).
+		Create(&model.Book{
+			Title:       "《Go语言之路2》",
+			Author:      "七米",
+			Price:       100,
+			PublishDate: time.Now(),
+		})
+	query.Book.
+		WithContext(context.Background()).
+		Create(&model.Book{
+			Title:       "《Go语言之路3》",
+			Author:      "七米",
+			Price:       100,
+			PublishDate: time.Now(),
+		})
+	// 使用自定义查询
+	books, err := query.Book.
+		WithContext(context.Background()).
+		GetBooksByAuthor("七米")
+	if err != nil {
+		fmt.Printf("GetBooksByAuthor fail, err:%v\n", err)
+		return
+	}
+	for i, v := range books {
+		fmt.Printf("%d: book:%#v\n", i, *v)
+	}
+}
+
+type repo struct {
+	// db *gorm.DB
+	db query.Query
 }
