@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package api.review.v1;
+
+option go_package = "review-service/api/review/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.review.v1";
+
+service Review {
+	rpc CreateReview (CreateReviewRequest) returns (CreateReviewReply);
+	rpc UpdateReview (UpdateReviewRequest) returns (UpdateReviewReply);
+	rpc DeleteReview (DeleteReviewRequest) returns (DeleteReviewReply);
+	rpc GetReview (GetReviewRequest) returns (GetReviewReply);
+	rpc ListReview (ListReviewRequest) returns (ListReviewReply);
+}
+
+message CreateReviewRequest {}
+message CreateReviewReply {}
+
+message UpdateReviewRequest {}
+message UpdateReviewReply {}
+
+message DeleteReviewRequest {}
+message DeleteReviewReply {}
+
+message GetReviewRequest {}
+message GetReviewReply {}
+
+message ListReviewRequest {}
+message ListReviewReply {}
