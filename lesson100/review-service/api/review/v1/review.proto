@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package api.review.v1;
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+option go_package = "review-service/api/review/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.review.v1";
+
+// 定义评价服务
+service Review {
+	// 创建评价
+	rpc CreateReview (CreateReviewRequest) returns (CreateReviewReply){
+		option (google.api.http) = {
+			post: "/v1/review",
+			body: "*"
+		};
+	};
+	rpc UpdateReview (UpdateReviewRequest) returns (UpdateReviewReply);
+	rpc DeleteReview (DeleteReviewRequest) returns (DeleteReviewReply);
+	rpc GetReview (GetReviewRequest) returns (GetReviewReply);
+	rpc ListReview (ListReviewRequest) returns (ListReviewReply);
+}
+
+// 创建评价的参数
+message CreateReviewRequest {
+	int64 userID = 1 [(validate.rules).int64 = {gt: 0}];
+	int64 orderID = 2 [(validate.rules).int64 = {gt: 0}];
+	int32 score = 3 [(validate.rules).int32 = {in: [1,2,3,4,5]}];
+	int32 serviceScore = 4 [(validate.rules).int32 = {in: [1,2,3,4,5]}];
+	int32 expressScore = 5 [(validate.rules).int32 = {in: [1,2,3,4,5]}];
+	string content = 6 [(validate.rules).string = {min_len: 8, max_len: 255}];
+	string picInfo = 7;
+	string videoInfo = 8;
+	bool anonymous = 9;
+}
+// 创建评价的回复
+message CreateReviewReply {
+	int64 reviewID = 1;
+}
+
+message UpdateReviewRequest {}
+message UpdateReviewReply {}
+
+message DeleteReviewRequest {}
+message DeleteReviewReply {}
+
+message GetReviewRequest {}
+message GetReviewReply {}
+
+message ListReviewRequest {}
+message ListReviewReply {}
