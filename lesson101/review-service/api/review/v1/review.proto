@@ -1,0 +1,169 @@
+syntax = "proto3";
+
+package api.review.v1;
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+option go_package = "review-service/api/review/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.review.v1";
+
+// 定义评价服务
+service Review {
+	// C端创建评价
+	rpc CreateReview (CreateReviewRequest) returns (CreateReviewReply){
+		option (google.api.http) = {
+			post: "/v1/review",
+			body: "*"
+		};
+	};
+	// C端获取评价详情
+	rpc GetReview (GetReviewRequest) returns (GetReviewReply) {
+		option (google.api.http) = {
+			get: "/v1/review/{reviewID}"
+		};
+	}
+	// O端审核评价
+	rpc AuditReview (AuditReviewRequest) returns (AuditReviewReply) {
+		option (google.api.http) = {
+			post: "/v1/review/audit",
+			body: "*"
+		};
+	}
+	// B端回复评价
+	rpc ReplyReview (ReplyReviewRequest) returns (ReplyReviewReply) {
+		option (google.api.http) = {
+			post: "/v1/review/reply",
+			body: "*"
+		};
+	}
+	// B端申诉评价
+	rpc AppealReview (AppealReviewRequest) returns (AppealReviewReply) {
+		option (google.api.http) = {
+			post: "/v1/review/appeal",
+			body: "*"
+		};
+	}
+	// O端评价申诉审核
+	rpc AuditAppeal (AuditAppealRequest) returns (AuditAppealReply) {
+		option (google.api.http) = {
+			post: "/v1/appeal/audit",
+			body: "*"
+		};
+	}
+	// C端查看userID下所有评价 
+	rpc ListReviewByUserID (ListReviewByUserIDRequest) returns (ListReviewByUserIDReply) {
+		option (google.api.http) = {
+			get: "/v1/{userID}/reviews",
+		};
+	}
+}
+
+// 创建评价的参数
+message CreateReviewRequest {
+	int64 userID = 1 [(validate.rules).int64 = {gt: 0}];
+	int64 orderID = 2 [(validate.rules).int64 = {gt: 0}];
+	int32 score = 3 [(validate.rules).int32 = {in: [1,2,3,4,5]}];
+	int32 serviceScore = 4 [(validate.rules).int32 = {in: [1,2,3,4,5]}];
+	int32 expressScore = 5 [(validate.rules).int32 = {in: [1,2,3,4,5]}];
+	string content = 6 [(validate.rules).string = {min_len: 8, max_len: 255}];
+	string picInfo = 7;
+	string videoInfo = 8;
+	bool anonymous = 9;
+}
+// 创建评价的回复
+message CreateReviewReply {
+	int64 reviewID = 1;
+}
+
+// 获取评价详情的请求参数
+message GetReviewRequest {
+	int64 reviewID = 1 [(validate.rules).int64 = {gt: 0}];
+}
+
+// 获取评价详情的响应
+message GetReviewReply {
+	ReviewInfo data = 1;
+}
+
+// 评价信息
+message ReviewInfo{
+	int64 reviewID = 1;
+	int64 userID = 2;
+	int64 orderID = 3;
+	int32 score = 4;
+	int32 serviceScore = 5;
+	int32 expressScore = 6;
+	string content = 7;
+	string picInfo = 8;
+	string videoInfo = 9;
+	int32 status = 10;
+}
+
+// 审核评价的请求
+message AuditReviewRequest {
+	int64 reviewID = 1 [(validate.rules).int64 = {gt: 0}];
+	int32 status = 2 [(validate.rules).int32 = {gt: 0}];
+	string opUser = 3 [(validate.rules).string = {min_len: 2}];
+	string opReason = 4 [(validate.rules).string = {min_len: 2}];
+	optional string opRemarks = 5;
+}
+
+// 审核评价的返回值
+message AuditReviewReply {
+	int64 reviewID = 1;
+	int32 status = 2;
+}
+
+// 回复评价的请求
+message ReplyReviewRequest{
+	int64 reviewID = 1 [(validate.rules).int64 = {gt: 0}];
+	int64 storeID = 2 [(validate.rules).int64 = {gt: 0}];
+	string content = 3 [(validate.rules).string = {min_len: 2, max_len:200}];
+	string picInfo = 4;
+	string videoInfo = 5;
+}
+
+// 回复评价的返回值
+message ReplyReviewReply{
+	int64 replyID = 1;
+}
+
+// AppealReviewRequest 申诉评价的请求参数
+message AppealReviewRequest{
+	int64 reviewID = 1 [(validate.rules).int64 = {gt: 0}];
+	int64 storeID = 2 [(validate.rules).int64 = {gt: 0}];
+	string reason = 3 [(validate.rules).string = {min_len: 2, max_len:200}];
+	string content = 4 [(validate.rules).string = {min_len: 2, max_len:200}];
+	string picInfo = 5;
+	string videoInfo = 6;
+}
+
+// 对评价进行申诉的返回值
+message AppealReviewReply{
+	int64 appealID = 1;
+}
+
+// 对申诉进行审核的请求
+message AuditAppealRequest{
+	int64 appealID = 1 [(validate.rules).int64 = {gt: 0}];
+	int32 status = 2 [(validate.rules).int32 = {gt: 0}];
+	string opUser = 3 [(validate.rules).string = {min_len: 2}];
+	optional string opRemarks = 4;
+}
+
+// 对申诉进行审核的返回值
+message AuditAppealReply{
+	int64 appealID = 1;
+}
+
+// 用户评价列表的请求
+message ListReviewByUserIDRequest{
+	int64 userID = 1 [(validate.rules).int64 = {gt: 0}];
+}
+
+// 用户评价列表的返回值
+message ListReviewByUserIDReply{
+	repeated ReviewInfo list = 1;
+}
