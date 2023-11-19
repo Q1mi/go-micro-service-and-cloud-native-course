@@ -34,7 +34,7 @@ CREATE TABLE review_info (
         `ctrl_json` varchar(1024) NOT NULL DEFAULT '' COMMENT '控制扩展',
         PRIMARY KEY (`id`),
         KEY `idx_delete_at` (`delete_at`) COMMENT '逻辑删除索引',
-        KEY `idx_review_id` (`review_id`) COMMENT '评价id索引',
+        UNIQUE KEY `uk_review_id` (`review_id`) COMMENT '评价id索引',
         KEY `idx_order_id` (`order_id`) COMMENT '订单id索引',
         KEY `idx_user_id` (`user_id`) COMMENT '用户id索引'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='评价表';
@@ -59,7 +59,7 @@ CREATE TABLE review_reply_info (
         `ctrl_json` varchar(1024) NOT NULL DEFAULT '' COMMENT '控制扩展',
         PRIMARY KEY (`id`),
         KEY `idx_delete_at` (`delete_at`) COMMENT '逻辑删除索引',
-        KEY `idx_reply_id` (`reply_id`) COMMENT '回复id索引',
+        UNIQUE KEY `uk_reply_id` (`reply_id`) COMMENT '回复id索引',
         KEY `idx_review_id` (`review_id`) COMMENT '评价id索引',
         KEY `idx_store_id` (`store_id`) COMMENT '店铺id索引'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='评价商家回复表';
@@ -91,6 +91,6 @@ CREATE TABLE review_appeal_info (
         PRIMARY KEY (`id`),
         KEY `idx_delete_at` (`delete_at`) COMMENT '逻辑删除索引',
         KEY `idx_appeal_id` (`appeal_id`) COMMENT '申诉id索引',
-        KEY `idx_review_id` (`review_id`) COMMENT '评价id索引',
+        UNIQUE KEY `uk_review_id` (`review_id`) COMMENT '评价id索引',
         KEY `idx_store_id` (`store_id`) COMMENT '店铺id索引'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='评价商家申诉表';
