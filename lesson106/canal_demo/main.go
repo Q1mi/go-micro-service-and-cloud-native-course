@@ -4,16 +4,17 @@ import (
 	"fmt"
 	"time"
 
-	pbe "github.com/withlin/canal-go/protocol/entry"
+	pbe "github.com/Q1mi/canal-go/protocol/entry"
 
-	"github.com/golang/protobuf/proto"
-	"github.com/withlin/canal-go/client"
+	"github.com/Q1mi/canal-go/client"
+	"google.golang.org/protobuf/proto"
 )
 
 // canal-go client demo
 
 func main() {
 	// 连接canal-server
+	// 请修改为你的 canal-server 配置
 	connector := client.NewSimpleCanalConnector(
 		"127.0.0.1", 11111, "", "", "example", 60000, 60*60*1000)
 	err := connector.Connect()
@@ -45,10 +46,11 @@ func main() {
 	}
 }
 
-func printEntry(entries []pbe.Entry) {
+func printEntry(entries []*pbe.Entry) {
 	for _, entry := range entries {
 		// 忽略事务开启和事务关闭类型
-		if entry.GetEntryType() == pbe.EntryType_TRANSACTIONBEGIN || entry.GetEntryType() == pbe.EntryType_TRANSACTIONEND {
+		if entry.GetEntryType() == pbe.EntryType_TRANSACTIONBEGIN ||
+			entry.GetEntryType() == pbe.EntryType_TRANSACTIONEND {
 			continue
 		}
 		// RowChange对象，包含了一行数据变化的所有特征
@@ -63,12 +65,12 @@ func printEntry(entries []pbe.Entry) {
 		}
 		// 获取并打印Header信息
 		header := entry.GetHeader()
-		fmt.Printf("binlog[%s : %d],name[%s,%s], eventType: %s\n",
+		fmt.Printf("binlog[%s : %d], name[%s,%s], eventType: %s\n",
 			header.GetLogfileName(),
 			header.GetLogfileOffset(),
-			header.GetSchemaName(),
-			header.GetTableName(),
-			header.GetEventType(),
+			header.GetSchemaName(), // 数据库
+			header.GetTableName(),  // 数据表
+			header.GetEventType(),  // 变更类型
 		)
 		//判断是否为DDL语句
 		if rowChange.GetIsDdl() {
@@ -88,13 +90,12 @@ func printEntry(entries []pbe.Entry) {
 				fmt.Println("---after---")
 				printColumn(rowData.GetAfterColumns())
 			}
-
 		}
 	}
 }
 
 func printColumn(columns []*pbe.Column) {
 	for _, col := range columns {
-		fmt.Printf("%s:%s  update=%v\n", col.GetName(), col.GetValue(), col.GetUpdated())
+		fmt.Printf("%s:%s  updated=%v\n", col.GetName(), col.GetValue(), col.GetUpdated())
 	}
 }
