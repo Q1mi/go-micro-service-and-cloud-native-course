@@ -103,11 +103,11 @@ func main() {
 		fmt.Printf("NewServerTLSFromFile failed, err:%v\n", err)
 		return
 	}
-s := grpc.NewServer(
-	grpc.Creds(creds),
-	grpc.UnaryInterceptor(unaryInterceptor),
-	grpc.StreamInterceptor(streamInterceptor),
-) // 创建grpc服务
+	s := grpc.NewServer(
+		grpc.Creds(creds),
+		grpc.UnaryInterceptor(unaryInterceptor),
+		grpc.StreamInterceptor(streamInterceptor),
+	) // 创建grpc服务
 	// 注册服务
 	pb.RegisterGreeterServer(s, &server{})
 	// 启动服务
