@@ -56,7 +56,7 @@ func main() {
 		fmt.Printf("GetOutboundIP failed,err:%v\n", err)
 		return
 	}
-	fmt.Println(ipinfo.String())
+	fmt.Println("ipinfo:", ipinfo.String())
 	// 将我们的gRPC服务注册到consul
 	// 1.定义我们的服务
 	// 配置健康检查策略，告诉consul如何进行健康检查
@@ -76,7 +76,10 @@ func main() {
 		Check:   check,
 	}
 	// 2.注册服务到consul
-	cc.Agent().ServiceRegister(srv)
+	err = cc.Agent().ServiceRegister(srv)
+	if err != nil {
+		fmt.Printf("ServiceRegister failed,err:%v\n", err)
+	}
 
 	// 启动服务
 	err = s.Serve(l)
