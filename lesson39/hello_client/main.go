@@ -25,7 +25,7 @@ func main() {
 	conn, err := grpc.Dial(
 		"consul://localhost:8500/hello?healthy=true", // grpc中使用consul名称解析器，
 		// 指定负载均衡策略，这里使用的是gRPC自带的round_robin
-		//grpc.WithDefaultServiceConfig(`{"loadBalancingPolicy":"round_robin"}`),
+		grpc.WithDefaultServiceConfig(`{"loadBalancingPolicy":"round_robin"}`),
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 	)
 	if err != nil {
@@ -37,7 +37,7 @@ func main() {
 	c := pb.NewGreeterClient(conn) // 使用生成的Go代码
 	// 4. 发起RPC调用
 	// 调用RPC方法
-	for i := 0; i < 10; i++ {
+	for {
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 		defer cancel()
 		resp, err := c.SayHello(ctx, &pb.HelloRequest{Name: *name})
@@ -48,6 +48,7 @@ func main() {
 
 		// 拿到了RPC响应
 		fmt.Printf("resp:%v\n", resp.GetReply())
+		time.Sleep(time.Millisecond * 500)
 	}
 }
 
