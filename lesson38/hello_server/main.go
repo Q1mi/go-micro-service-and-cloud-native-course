@@ -100,7 +100,7 @@ func main() {
 	fmt.Println("service out...")
 	err = cc.Agent().ServiceDeregister(serviceID) // 注销服务
 	if err != nil {
-		fmt.Printf("ServiceDeregister failed, err:%v\n")
+		fmt.Printf("ServiceDeregister failed, err:%v\n", err)
 	}
 }
 
