@@ -31,8 +31,7 @@ var (
 // Sum 返回两个数的和
 func (s addService) Sum(_ context.Context, a, b int) (int, error) {
 	// 业务逻辑
-	// 1.查询数据
-	// s.db.Query()
+	// 1.查询数据 s.db.Query()
 	// 2.处理数据
 	return a + b, nil
 }

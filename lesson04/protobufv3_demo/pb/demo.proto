@@ -20,7 +20,7 @@ message SearchRequest {
         VIDEO = 6;  // 枚举值
       }
     Corpus corpus = 6;   // 字段编号
-  }
+}
 
 enum Week {
     UNKNOWN = 0;
@@ -39,7 +39,7 @@ message Result {
     string url = 1;
     string title = 2;
     repeated string snippets = 3;
-  }
+}
 
 
 service SearchService {

@@ -44,7 +44,7 @@ func TestSum(t *testing.T) {
 	// 1.建立链接
 	conn, err := grpc.DialContext(
 		context.Background(),
-		"bufnet",
+		"anythingHere",
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 		grpc.WithContextDialer(bufDialer),
 	)
@@ -63,3 +63,21 @@ func TestSum(t *testing.T) {
 }
 
 // 给Concat方法编写测试
+func TestConcat(t *testing.T) {
+	return //concat method deleted
+	conn, err := grpc.DialContext(
+		context.Background(),
+		"bufnet",
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+		grpc.WithContextDialer(bufDialer),
+	)
+	if err != nil {
+		t.Fail()
+	}
+	defer conn.Close()
+	c := pb.NewAddClient(conn)
+	resp, err := c.Concat(context.Background(), &pb.ConcatRequest{A: "hello", B: "world"})
+	assert.Nil(t, err)
+	assert.NotNil(t, resp)
+	assert.Equal(t, resp.V, "helloworld")
+}
